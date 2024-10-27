@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set permissions for script
         run: chmod +x ./lab1/flaskapp/st.sh
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
