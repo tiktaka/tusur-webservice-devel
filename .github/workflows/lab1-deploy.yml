@@ -10,7 +10,8 @@ on:
 
 jobs:
   build:
-    runs-on: study-runner1
+    runs-on:
+      labels: self-hosted
 
     steps:
       - name: Checkout code
