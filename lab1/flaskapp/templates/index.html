@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processor</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <label for="image">Choose an image:</label>
+        <input type="file" name="image" id="image" required><br><br>
+
+        <label for="period">Enter period (e.g., 100):</label>
+        <input type="text" name="period" id="period" required><br><br>
+
+        <label for="axis">Choose axis:</label>
+        <select name="axis" id="axis">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+        </select><br><br>
+
+        <label for="function">Choose function:</label>
+        <select name="function" id="function">
+            <option value="sin">Sin</option>
+            <option value="cos">Cos</option>
+        </select><br><br>
+
+        <button type="submit">Process Image</button>
+    </form>
+</body>
+</html>

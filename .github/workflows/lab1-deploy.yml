@@ -1,37 +1,42 @@
-name: Python application
+name: Build and Deploy to GHCR
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
+  # Step 1: Build Job
   build:
-    runs-on:
-      labels: self-hosted
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set permissions for script
-        run: chmod +x ./lab1/flaskapp/st.sh
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      - name: Log in to GitHub Container Registry
         run: |
-          pip install flask
-          pip install gunicorn
-          pip install requests
+          echo "${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Run script
+      - name: Build and Push Docker Image to GHCR
+        env:
+          IMAGE_NAME: "ghcr.io/${{ github.repository_owner }}/flask-app:latest"
         run: |
-          cd ./lab1/flaskapp
-          ./st.sh
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+  # Step 2: Run Job
+  run:
+    runs-on: ubuntu-latest
+    needs: build  # Ensures `run` job only starts after `build` job completes
+
+    steps:
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GHCR_TOKEN || secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull and Run Docker Image from GHCR
+        env:
+          IMAGE_NAME: "ghcr.io/${{ github.repository_owner }}/flask-app:latest"
+        run: |
+          docker pull $IMAGE_NAME
+          docker run -d -p 5000:5000 $IMAGE_NAME

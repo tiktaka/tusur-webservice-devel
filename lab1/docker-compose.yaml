@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  lab1_image:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lab1-flask-app:latest
+    ports:
+      - "5000:5000"

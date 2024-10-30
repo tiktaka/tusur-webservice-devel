@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processed Image</title>
+</head>
+<body>
+    <h1>Processed Image</h1>
+    
+    <h2>Original Image:</h2>
+    <img src="data:image/png;base64,{{ original_image }}" alt="Original Image">
+
+    <h2>Processed Image:</h2>
+    <img src="data:image/png;base64,{{ processed_image }}" alt="Processed Image">
+
+    <h2>Color Distribution - Original:</h2>
+    <img src="data:image/png;base64,{{ original_plot }}" alt="Original Color Distribution">
+
+    <h2>Color Distribution - Processed:</h2>
+    <img src="data:image/png;base64,{{ processed_plot }}" alt="Processed Color Distribution">
+</body>
+</html>
