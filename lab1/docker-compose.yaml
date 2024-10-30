@@ -5,6 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: lab1-flask-app:latest
+    image: ghcr.io/tiktaka/flask-app:latest
     ports:
       - "5000:5000"
