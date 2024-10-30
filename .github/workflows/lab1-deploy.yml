@@ -27,7 +27,7 @@ jobs:
 
   # Step 2: Run Job
   run:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     needs: build  # Ensures `run` job only starts after `build` job completes
 
     steps:
