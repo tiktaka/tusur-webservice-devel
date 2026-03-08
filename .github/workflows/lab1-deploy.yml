@@ -29,8 +29,6 @@ jobs:
         with:
           context: ./lab1
           push: true
-          provenance: true
-          sbom: true
 
   # Step 2: Run
   deploy:
