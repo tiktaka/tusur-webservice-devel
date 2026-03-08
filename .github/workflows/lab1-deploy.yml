@@ -44,9 +44,9 @@ jobs:
           compose-file: ./lab1/docker-compose.yaml
           services: |
             lab1
-          env: |
-            IMAGE_NAME: ${{ env.IMAGE_NAME }}
-            GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-            SECRET_KEY: ${{ secrets.SECRET_KEY }}
-            RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-            RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
+          RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
