@@ -33,6 +33,7 @@ jobs:
 
   # Step 2: Run
   deploy:
+    needs: build
     runs-on: [self-hosted]
     steps:
       - name: Checkout Code
@@ -42,8 +43,8 @@ jobs:
         uses: isbang/compose-action@v1.5.1
         with:
           compose-file: ./lab1/docker-compose.yaml
-          services: |
-            lab1
+          services: lab1
+          up-flags: -d
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
