@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  lab1_image:
+  lab1:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/tiktaka/flask-app:latest
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/flask-app_lab1:latest
     environment:
     - SECRET_KEY=${SECRET_KEY}
     - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
