@@ -7,7 +7,7 @@ on:
 
 env:
   # Docker image name
-  IMAGE_NAME: flask-app_lab1
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/flask-app_lab1:latest
 
 jobs:
   # Step 1: Build
@@ -29,7 +29,7 @@ jobs:
         with:
           context: ./lab1
           push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.IMAGE_NAME }}
 
   # Step 2: Run
   deploy:
@@ -45,7 +45,7 @@ jobs:
           services: |
             lab1
           environment: |
-            IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/flask-app_lab1:latest
+            IMAGE_NAME=${{ env.IMAGE_NAME }}
             GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
             SECRET_KEY=${{ secrets.SECRET_KEY }}
             RECAPTCHA_PUBLIC_KEY=${{ secrets.RECAPTCHA_PUBLIC_KEY }}
