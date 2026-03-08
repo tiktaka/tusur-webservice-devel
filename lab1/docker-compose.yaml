@@ -1,10 +1,5 @@
-version: '3.8'
-
 services:
   lab1:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: ${IMAGE_NAME}
     environment:
     - SECRET_KEY=${SECRET_KEY}
