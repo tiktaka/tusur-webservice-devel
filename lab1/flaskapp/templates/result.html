@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результат преобразования</title>
+</head>
+<body>
+    <h2>Исходное изображение:</h2>
+    <img src="data:image/png;base64,{{ original_image }}" alt="Original Image">
+
+    <h2>Преобразованное изображение:</h2>
+    <img src="data:image/png;base64,{{ processed_image }}" alt="Processed Image">
+
+    <h2>Кривая распределения цветов (Исходная):</h2>
+    <img src="data:image/png;base64,{{ original_plot }}" alt="Original Color Distribution">
+
+    <h2>Кривая распределения цветов (Преобразованная):</h2>
+    <img src="data:image/png;base64,{{ processed_plot }}" alt="Processed Color Distribution">
+</body>
+</html>
