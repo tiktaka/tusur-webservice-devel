@@ -1,9 +1,11 @@
+# Compose-файл для развёртывания приложения из Github Actions
 services:
   lab1:
-    image: ${IMAGE_NAME}
+    image: ${IMAGE_NAME} # имя образа, которое передаётся переменной из lab1-deploy.yml в шаге deploy
     environment:
+      # передаём в приложения ключи для reCaptcha
     - SECRET_KEY=${SECRET_KEY}
     - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
     - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
     ports:
-      - "5000:5000"
+      - "5000:5000" # пробрасываем порт 5000 во вне, чтобы был доступ к приложению с клиента

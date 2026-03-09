@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Обработка изображения функциями SIN/COS</title>
 </head>
 <body>
     <h1>Параметры</h1>
     <form action="/process" method="post" enctype="multipart/form-data">
+        <!-- Выбор изображения с диска на клиентском устройстве -->
         <label for="image">Выбрать изображение:</label>
         <input type="file" name="image" id="image" required><br><br>
-
+        <!-- Форма выбора функции sin/cos -->
         <label for="function">Выбор функции:</label>
         <select name="function" id="function">
             <option value="sin">Sin</option>
             <option value="cos">Cos</option>
         </select><br><br>
-
+        <!-- Форма ввода периода -->
         <label for="period">Выбор периода функции:</label>
         <input type="text" name="period" id="period" required><br><br>
-
+        <!-- Выбор оси, на которую будет применяться функция -->
         <label for="axis">Выбор оси:</label>
         <select name="axis" id="axis">
             <option value="horizontal">Горизонтальная</option>
             <option value="vertical">Вертикальная</option>
         </select><br><br>
+        <!-- Вставка каптчи -->
         {{ form.recaptcha() }}
+        <!-- Кнопка отправки формы на сервер -->
         <button type="submit">Process Image</button>
     </form>
 </body>
