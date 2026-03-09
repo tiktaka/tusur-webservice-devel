@@ -1,22 +1,22 @@
-import os
+from os import getenv
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm, RecaptchaField
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-import io
-import base64
+from io import BytesIO
+from base64 import b64encode
 
 app = Flask(__name__)
 # Загружаем ключи из переменных окружения для reCAPTCHA
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
-app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
+app.config['SECRET_KEY'] = getenv('SECRET_KEY')
+app.config['RECAPTCHA_PUBLIC_KEY'] = getenv('RECAPTCHA_PUBLIC_KEY')
+app.config['RECAPTCHA_PRIVATE_KEY'] = getenv('RECAPTCHA_PRIVATE_KEY')
 
 # Применение функции к изображению
 def apply_function(image, period, axis, func_type='sin'):
     img_array = np.array(image).astype(np.float32)  # Преобразуем изображение в массив
-    height, width = img_array.shape[:2] # Берём только высоту/ширину
+    height, width = img_array.shape[:2] # Берём срезом высоту/ширину
 
     # Выбор оси
     if axis == 'horizontal':
@@ -68,7 +68,7 @@ def color_distribution_graph(image):
     plt.grid(True, alpha=0.3)
     
     # Пишем массив пикселей в буфер в формате png и ставим указатель в начало
-    img_buffer = io.BytesIO()
+    img_buffer = BytesIO()
     plt.savefig(img_buffer, format='png')
     img_buffer.seek(0)
     plt.close()
@@ -78,7 +78,7 @@ def color_distribution_graph(image):
 # Функция для преобразования изобрадения в base64 для вставки в HTML
 def image_to_base64(image_buffer):
     image_buffer.seek(0)
-    return base64.b64encode(image_buffer.read()).decode('utf-8')
+    return b64encode(image_buffer.read()).decode('utf-8')
 
 # Форма с капчей
 class ImageProcessingForm(FlaskForm):
@@ -109,8 +109,8 @@ def process_image():
     processed_image = apply_function(image, period, axis, func_type)
 
     # Создаем буфер для сохранения изображений до/после
-    original_buffer = io.BytesIO()
-    processed_buffer = io.BytesIO()
+    original_buffer = BytesIO()
+    processed_buffer = BytesIO()
 
     # Сохраняем изображения в буфер
     image.save(original_buffer, format='PNG')
