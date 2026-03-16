@@ -1,7 +1,8 @@
+from datetime import datetime
 from os import getenv
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm, RecaptchaField
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
@@ -75,6 +76,24 @@ def color_distribution_graph(image):
     # возвращаем буфер с изображением внутри
     return img_buffer
 
+# Добавление даты и времени на изображение (в правый нижний угол)
+def draw_datetime(image):
+    draw = ImageDraw.Draw(image)
+    # получаем текущую дату и время и преобразуем в строку с понятным форматом
+    current_datetime = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+    # Устанавливаем размер шрифта, чтобы дата и время занимали 5% ширины
+    font = ImageFont.load_default(size=image.width * 0.05)
+    # Получаем границы текста относительно 0 позиции на изображении (уже с учётом размера шрифта)
+    sizes = draw.textbbox((0, 0), current_datetime, font=font)
+    # Из границ получаем размеры текста с датой в временем
+    datetime_height = sizes[3] - sizes[1]
+    datetime_width = sizes[2] - sizes[0]
+    # Вычитаем из размеров изображения размеры текста + вычитаем фиксированный отступ
+    x = image.width - datetime_width - 20
+    y = image.height - datetime_height - 20
+    # Добавляем строку с датой и временем  на картинку
+    draw.text((x, y), current_datetime, fill=(255, 0, 0), font=font)
+    
 # Функция для преобразования изобрадения в base64 для вставки в HTML
 def image_to_base64(image_buffer):
     image_buffer.seek(0)
@@ -108,6 +127,18 @@ def process_image():
     # Преобразуем изображение по указанным в форме параметрам
     processed_image = apply_function(image, period, axis, func_type)
 
+    # Генерируем графики
+    original_plot = color_distribution_graph(image)
+    processed_plot = color_distribution_graph(processed_image)
+
+    # Графики тоже преобразуем в base64
+    original_plot_base64 = image_to_base64(original_plot)
+    processed_plot_base64 = image_to_base64(processed_plot)
+
+    # Если чекбокс установлен, то генерируем на изображениии дату и время
+    if "draw_datetime" in request.form:
+        draw_datetime(processed_image)
+
     # Создаем буфер для сохранения изображений до/после
     original_buffer = BytesIO()
     processed_buffer = BytesIO()
@@ -119,14 +150,6 @@ def process_image():
     # Преобразуем изображения в base64
     original_base64 = image_to_base64(original_buffer)
     processed_base64 = image_to_base64(processed_buffer)
-
-    # Генерируем графики
-    original_plot = color_distribution_graph(image)
-    processed_plot = color_distribution_graph(processed_image)
-
-    # Графики тоже преобразуем в base64
-    original_plot_base64 = image_to_base64(original_plot)
-    processed_plot_base64 = image_to_base64(processed_plot)
 
     # Рендерим страницу с результатами работы
     return render_template('result.html', 

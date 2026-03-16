@@ -1,3 +1,10 @@
 services:
   lab1:
     build: .
+    environment:
+      # передаём в приложения ключи для reCaptcha
+    - SECRET_KEY=${SECRET_KEY}
+    - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+    - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
+    ports:
+      - "5000:5000"

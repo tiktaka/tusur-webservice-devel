@@ -24,6 +24,10 @@
             <option value="horizontal">Горизонтальная</option>
             <option value="vertical">Вертикальная</option>
         </select><br><br>
+        <input type="checkbox" id="draw_datetime" name="draw_datetime" />
+        <label for="draw_datetime">
+            Добавить дату/время 
+        </label>  
         <!-- Вставка каптчи -->
         {{ form.recaptcha() }}
         <!-- Кнопка отправки формы на сервер -->
